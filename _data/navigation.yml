@@ -1,0 +1,6 @@
+- name: Home
+  link: /
+- name: Great American Roadtrip
+  link: /great_american_roadtrip.html
+- name: Blog
+  link: /blog.html

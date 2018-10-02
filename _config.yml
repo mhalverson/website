@@ -1,0 +1,16 @@
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+exclude:
+  - README.md
+  - s3_website.yml
+  - Gemfile
+  - Gemfile.lock

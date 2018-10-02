@@ -1,0 +1,9 @@
+<nav>
+	{% assign last_link = site.data.navigation.last.link %}
+	{% for item in site.data.navigation %}
+	<a href="{{ item.link }}" {% if page.url == item.link %}style="color: red;"{% endif %}>
+		{{ item.name }}
+	</a>
+	{% if item.link != last_link %} | {% endif%}
+	{% endfor %}
+</nav>
