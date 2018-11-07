@@ -23903,7 +23903,7 @@ L.control.scale().addTo(map_fbf51d77c52c4b2e853b8cd9a926fdb3);
                 feature_group_caafa51b1fbd4237bbe8ce41001aebbb.remove();
                 feature_group_b7d0432fa2a34e3ba3e1e81d1f375d91.remove();
         
-$('#summaryzone').html('<p>The map has our routeline and the start/end locations displayed by default. If you click on the "layers" icon in the upper-right corner, you can enable (and disable) other map layers to show various events.</p><p>When you enable a map layer, you can click on the icons to show the associated data. This bottom space will also show the same data as the map layer, formatted as a table.</p><p>To see these instructions and this summary data again, simply refresh the page.</p><h3>Summary data</h3>' + summary_data["executive_summary"]);
+$('#summaryzone').html('<p>The map has our routeline and the start/end locations displayed by default. If you click on the "layers" icon in the upper-right corner, you can enable (and disable) other map layers to show various events.</p><p>When you enable a map layer, you can click on the icons to show the associated data. This bottom space will also show the same data as the map layer, formatted as a table.</p><p>To see these instructions again, simply refresh the page.</p>');
 map_fbf51d77c52c4b2e853b8cd9a926fdb3.on('overlayadd', function(overlay) {
 	$('#summaryzone').html('<h3>' + overlay.name + '</h3>' + summary_data[overlay.name]);
 	return true;
