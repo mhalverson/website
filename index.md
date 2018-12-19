@@ -8,8 +8,8 @@ title: Home
 My name is Matt Halverson. I'm a software engineer (most recently with
 [Uber](https://www.uber.com/)), a musician (most recently with [The Choral
 Project](https://www.choralproject.org/)), and a traveler (most recently on a
-[Great American Roadtrip](./great_american_roadtrip.html)). I'm an alum of [UC
-Davis](https://www.ucdavis.edu/).
+[North Island roadtrip](./travel/2018_11_north_island_roadtrip.html)). I'm
+an alum of [UC Davis](https://www.ucdavis.edu/).
 
 Welcome to my personal website!
 

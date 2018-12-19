@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Great American Roadtrip
+title: Great American Roadtrip, 2018
 ---
 
 # Summary
@@ -12,10 +12,10 @@ incredibly rewarding.
 
 # Map
 
-I built an [interactive map](./great_american_roadtrip_map.html) of the
+I built an [interactive map](2018_05_great_american_roadtrip_map.html) of the
 roadtrip using
 [Folium](https://github.com/python-visualization/folium)/[Leaflet.js](https://leafletjs.com/). Check it out:
-* [link](./great_american_roadtrip_map.html)
+* [link](2018_05_great_american_roadtrip_map.html)
 
 Notes:
 * It is optimized for a computer screen rather than a smartphone screen.
@@ -27,10 +27,10 @@ Notes:
 To generate the map:
 * Clone https://github.com/mhalverson/roadtrip and follow the README to generate the map html and the summary data json
 * Copy the map html and the summary data over to this website repository:
-  - `cp ../roadtrip/roadtrip/rendered_map.html great_american_roadtrip_map.html`
-  - `cp ../roadtrip/roadtrip/summary_data.js great_american_roadtrip_summary.js`
-* Then there are a few manual edits to apply to `great_american_roadtrip_map.html`:
-  - in the head, add a script to load summary data file `<script src="great_american_roadtrip_summary.js"></script>`
+  - `cp ../roadtrip/roadtrip/rendered_map.html travel/2018_05_great_american_roadtrip_map.html`
+  - `cp ../roadtrip/roadtrip/summary_data.js travel/2018_05_great_american_roadtrip_summary.js`
+* Then there are a few manual edits to apply to `travel/2018_05_great_american_roadtrip_map.html`:
+  - in the head, add a script to load summary data file `<script src="2018_05_great_american_roadtrip_summary.js"></script>`
   - change the map style to have `height: 80.0%;`
   - in the body, add another div to hold the summary data: `<div id="summaryzone"></div>`
   - add an event listener to "overlay added" that will render the summary data to the screen:
