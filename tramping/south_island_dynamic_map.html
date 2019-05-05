@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139615802-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-139615802-1');
+    </script>
+    <script>L_PREFER_CANVAS=false; L_NO_TOUCH=false; L_DISABLE_3D=false;</script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.4.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <script src="encoded_hut_dict.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.4.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <style>
+        .button-action{
+            text-decoration: none;
+            text-align: center;
+            color: grey;
+            background: white;
+	    z-index: 9999;
+	    pointer-events: auto;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width,
+        initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>#map_b456d6662f2d431d8d7f2498ebb55f0e {
+        position: relative;
+        width: 100.0%;
+        height: 100.0%;
+        left: 0.0%;
+        top: 0.0%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="folium-map" id="map_b456d6662f2d431d8d7f2498ebb55f0e" ></div>
+    <div class="leaflet-bottom leaflet-right">
+        <input type="button" class="button-action" onclick="generateInputPage()" value="Update checklist">
+    </div>
+
+</body>
+<script>
+    var url = new URL(window.location.href);
+    var encodedHutsVisited = url.searchParams.get("huts") || "";
+
+    // tag the visited huts in the dict
+    while (encodedHutsVisited.length > 0 ) {
+        nextHut = encodedHutsVisited.substring(0, 5);
+        encodedHutDict[nextHut]["visited"] = true;
+        encodedHutsVisited = encodedHutsVisited.substring(5);
+    }
+
+    function generateInputPage() {
+        var url = new URL(window.location.href);
+        var encodedHutsVisited = url.searchParams.get("huts") || "";
+	window.location.href = "south_island_dynamic_checklist.html?huts=" + encodedHutsVisited;
+    }
+
+
+        var bounds = null;
+
+    var map_b456d6662f2d431d8d7f2498ebb55f0e = L.map(
+        'map_b456d6662f2d431d8d7f2498ebb55f0e', {
+        center: [-43.8977, 170.6418],
+        zoom: 6,
+        maxBounds: bounds,
+        layers: [],
+        worldCopyJump: false,
+        crs: L.CRS.EPSG3857,
+        zoomControl: true,
+        });
+L.control.scale().addTo(map_b456d6662f2d431d8d7f2498ebb55f0e);
+
+
+    var tile_layer_1fda83c512304d2292844fab68f45e9b = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+        "attribution": null,
+        "detectRetina": false,
+        "maxNativeZoom": 18,
+        "maxZoom": 18,
+        "minZoom": 0,
+        "noWrap": false,
+        "opacity": 1,
+        "subdomains": "abc",
+        "tms": false
+}).addTo(map_b456d6662f2d431d8d7f2498ebb55f0e);
+    var tile_layer_5af1514e1826444185762a2f9137b47e = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+        "attribution": null,
+        "detectRetina": false,
+        "maxNativeZoom": 18,
+        "maxZoom": 18,
+        "minZoom": 0,
+        "noWrap": false,
+        "opacity": 1,
+        "subdomains": "abc",
+        "tms": false
+}).addTo(map_b456d6662f2d431d8d7f2498ebb55f0e);
+    var tile_layer_83b17a6232704d77853ffdca8835f71b = L.tileLayer(
+        'https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg',
+        {
+        "attribution": null,
+        "detectRetina": false,
+        "maxNativeZoom": 18,
+        "maxZoom": 18,
+        "minZoom": 0,
+        "noWrap": false,
+        "opacity": 1,
+        "subdomains": "abc",
+        "tms": false
+}).addTo(map_b456d6662f2d431d8d7f2498ebb55f0e);
+
+
+var map = map_b456d6662f2d431d8d7f2498ebb55f0e;
+var overlays = {};
+const regions = [ "Nelson/Tasman", "Marlborough", "West Coast", "Canterbury", "Otago", "Fiordland", "Southland", ];
+
+for (var i = 0; i < regions.length; i++) {
+        var r = regions[i];
+	var fg1 = L.featureGroup().addTo(map);
+	var fg2 = L.featureGroup().addTo(map);
+	var visited = r + " - Visited";
+	var not_visited = r + " - Not visited";
+	overlays[visited] = fg1;
+	overlays[not_visited] = fg2;
+}
+
+for (var key in encodedHutDict) {
+	var hut = encodedHutDict[key];
+	if (regions.indexOf(hut.region) == -1) {
+		continue;
+	}
+
+	var overlay_key;
+	var color;
+        if (hut.visited) {
+            overlay_key = hut.region + " - Visited";
+            color = "green";
+        } else {
+            overlay_key = hut.region + " - Not visited";
+            color = "orange";
+        }
+	var fg = overlays[overlay_key];
+
+        var marker = L.marker(
+	    [hut.lat, hut.lng],
+	    { icon: new L.Icon.Default() }
+	).addTo(fg)
+
+        var icon = L.AwesomeMarkers.icon({
+                icon: 'home',
+                iconColor: 'white',
+                markerColor: color,
+                prefix: 'glyphicon',
+                extraClasses: 'fa-rotate-0'
+        });
+        marker.setIcon(icon);
+
+        var popup = L.popup({maxWidth: '150'});
+	var html_ = $(`<div style="width: 100.0%; height: 100.0%;"><a href="${hut.url}">${hut.name}</a> <br/> ${hut.place} </div>`)[0];
+        popup.setContent(html_);
+        marker.bindPopup(popup);
+}
+
+
+
+
+            var layer_control_fa8db9dd506a45d88255ddbe44d123d1 = {
+                base_layers : { "openstreetmap" : tile_layer_5af1514e1826444185762a2f9137b47e,"stamenterrain" : tile_layer_83b17a6232704d77853ffdca8835f71b, },
+                overlays : overlays
+                };
+            L.control.layers(
+                layer_control_fa8db9dd506a45d88255ddbe44d123d1.base_layers,
+                layer_control_fa8db9dd506a45d88255ddbe44d123d1.overlays,
+                {position: 'topright',
+                 collapsed: true,
+                 autoZIndex: true
+                }).addTo(map_b456d6662f2d431d8d7f2498ebb55f0e);
+
+                for (var i = 0; i < regions.length; i++) {
+                        var r = regions[i];
+                	var fg = overlays[r + ' - Not visited'];
+                	fg.remove();
+                }
+                tile_layer_83b17a6232704d77853ffdca8835f71b.remove();
+
+</script>

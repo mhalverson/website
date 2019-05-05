@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139615802-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-139615802-1');
+    </script>
+    <script>L_PREFER_CANVAS=false; L_NO_TOUCH=false; L_DISABLE_3D=false;</script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.4.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <script src="encoded_hut_dict.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.4.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+
+    <meta name="viewport" content="width=device-width,
+        initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+<body>
+
+<p>
+Check the boxes for the huts you've visited, then click the button to generate the map. If you want to update the checklist, click the "Update Checklist" button in the bottom right of the map... the browser "back" button will not work. Make sure you save the map URL. You can share it with your friends and family, or come back at a later time to update your checklist.
+<br/>
+<button type="button" onclick="generateMap()">Generate map</button>
+</p>
+
+<p>
+If you'd rather not scroll through the whole list, you can type in a hut name here, then mark it as visited/not visited.
+<br/>
+<input list="possibleHuts" name="hutToToggle">
+<datalist id="possibleHuts">
+</datalist>
+<input type="button" onclick="addHut()" value="Mark as visited">
+<input type="button" onclick="removeHut()" value="Mark as not visited">
+</p>
+
+<div id="checklist"></div>
+
+<div>TOTAL <span id="grandTotal"></span> visited</div>
+
+<p>
+<button type="button" onclick="generateMap()">Generate map</button>
+</p>
+</body>
+
+<script>
+
+const thisIsland = 'South Island';
+
+// tag the visited huts in the dict
+var url = new URL(window.location.href);
+var encodedHutsVisited = url.searchParams.get("huts") || "";
+while (encodedHutsVisited.length > 0 ) {
+    nextHut = encodedHutsVisited.substring(0, 5);
+    encodedHutDict[nextHut]["visited"] = true;
+    encodedHutsVisited = encodedHutsVisited.substring(5);
+}
+
+// populate the checklist
+const space = '&nbsp;';
+
+function addHeader(name, indent = 0) {
+	var container = $('#checklist');
+	container.append(space.repeat(indent));
+	$('<span/>', { text: name.toUpperCase() }).appendTo(container);
+	$('<span/>', { id: name  }).appendTo(container);
+	$('<br/>').appendTo(container);
+}
+
+var region_to_hut_to_checkbox_id = {};  // for autocompleting text box
+function addCheckbox(hut, indent = 0) {
+	var container = $('#checklist');
+	var inputs = container.find('input');
+	var id = 'cb' + (inputs.length + 1);
+
+	if (!(hut.region in region_to_hut_to_checkbox_id)) {
+		region_to_hut_to_checkbox_id[hut.region] = {};
+	}
+	region_to_hut_to_checkbox_id[hut.region][hut.name] = id;
+
+	container.append(space.repeat(indent));
+	$('<input>', { type: 'checkbox', checked: Boolean(hut.visited), id: id, value: hut.name, name: hut.name,
+		       'data-name': hut.name, 'data-place': hut.place, 'data-region': hut.region,
+	               oninput: "updateTotals()"}).appendTo(container);
+	$('<span/>', { html: $('<a/>', { 'href': hut.url, text: hut.name}) }).appendTo(container);
+	$('<br/>').appendTo(container);
+}
+
+const regions = [ "Nelson/Tasman", "Marlborough", "West Coast", "Canterbury", "Otago", "Fiordland", "Southland", ];
+var region_to_place_to_huts = {};
+
+for (var key in encodedHutDict) {
+	var hut = encodedHutDict[key];
+	if (hut.island != thisIsland) {
+		continue;
+	}
+	if (!(hut.region in region_to_place_to_huts)) {
+		region_to_place_to_huts[hut.region] = {};
+	}
+	if (!(hut.place in region_to_place_to_huts[hut.region])) {
+		region_to_place_to_huts[hut.region][hut.place] = [];
+	}
+	region_to_place_to_huts[hut.region][hut.place].push(hut);
+}
+
+addHeader(thisIsland);
+for (var i = 0; i < regions.length; i++) {
+	var r = regions[i];
+	addHeader(r, 8);
+	var place_to_huts = region_to_place_to_huts[r];
+	var places = Object.keys(place_to_huts);
+	places.sort();
+	for (var j = 0; j < places.length; j++) {
+		var p = places[j];
+		addHeader(p, 16);
+		var huts = place_to_huts[p];
+		huts.sort(function(h1,h2){
+			var name1 = h1.name;
+			var name2 = h2.name;
+			return ((name1 < name2) ? -1 : ((name1 > name2) ? 1 : 0));
+		});
+		for (var k = 0; k < huts.length; k++) {
+			var h = huts[k];
+			addCheckbox(h, 24);
+		}
+	}
+}
+
+function generateMap() {
+	var container = $('#checklist');
+	var inputs = container.find('input');
+	var hutsVisited = [];
+	for (var i = 0; i < inputs.length; i++) {
+		var input = inputs[i];
+		if (input.checked) {
+			hutsVisited.push(input.name + input.dataset.place + input.dataset.region);
+		}
+	}
+	var urlParam = '';
+	for (var key in encodedHutDict) {
+		var hut = encodedHutDict[key];
+		if (hutsVisited.indexOf(hut.name + hut.place + hut.region) != -1) {
+			urlParam += key;
+		}
+	}
+	window.location.href = "south_island_dynamic_map.html?huts=" + urlParam;
+}
+
+function updateTotals() {
+	var container = $('#checklist');
+	var inputs = container.find('input');
+	var grandTotal = [0, 0]
+	var regionTotals = {};
+	var placeTotals = {};
+	for (var i = 0; i < inputs.length; i++) {
+		var input = inputs[i];
+		region = input.dataset.region;
+		if (!(region in regionTotals)) {
+			regionTotals[region] = [0, 0];
+		}
+		place = input.dataset.place;
+		if (!(place in placeTotals)) {
+			placeTotals[place] = [0, 0];
+		}
+
+		var toAdd = input.checked ? [1, 1] : [0, 1];
+		grandTotal[0] += toAdd[0];
+		grandTotal[1] += toAdd[1];
+		regionTotals[region][0] += toAdd[0];
+		regionTotals[region][1] += toAdd[1];
+		placeTotals[place][0] += toAdd[0];
+		placeTotals[place][1] += toAdd[1];
+	}
+	$('#grandTotal').text(grandTotal[0] + ' of ' + grandTotal[1]);
+	$('[id="' + thisIsland + '"]').text(' (' + grandTotal[0] + ' of ' + grandTotal[1] + ')');
+	for (var region in regionTotals) {
+		var toAdd = regionTotals[region];
+		$('[id="' + region + '"]').text(' (' + toAdd[0] + ' of ' + toAdd[1] + ')');
+	}
+	for (var place in placeTotals) {
+		var toAdd = placeTotals[place];
+		$('[id="' + place + '"]').text(' (' + toAdd[0] + ' of ' + toAdd[1] + ')');
+	}
+}
+
+// populate the autocompleting text box
+var autocompleteBox = $('#possibleHuts');
+for (var key in encodedHutDict) {
+	var hut = encodedHutDict[key];
+	if (hut.island != thisIsland) {
+		continue;
+	}
+	$('<option>', {value: hut.name + ' (' + hut.place + ', ' + hut.region + ')',
+	               'data-name': hut.name, 'data-place': hut.place, 'data-region': hut.region,
+	              }).appendTo(autocompleteBox);
+
+}
+
+function setHutCheckbox(visited) {
+	var hut = $('input[name=hutToToggle]');
+	var v = hut.val();
+	var dataset = $('#possibleHuts [value="' + v + '"]').data();
+	var checkboxId = region_to_hut_to_checkbox_id[dataset.region][dataset.name];
+	var checkbox = $('#' + checkboxId);
+	checkbox.prop('checked', visited);
+	updateTotals();
+}
+function addHut() { setHutCheckbox(true); }
+function removeHut() { setHutCheckbox(false); }
+
+updateTotals();
+</script>
