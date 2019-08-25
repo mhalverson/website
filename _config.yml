@@ -14,3 +14,9 @@ exclude:
   - s3_website.yml
   - Gemfile
   - Gemfile.lock
+
+plugins:
+  - jekyll-responsive-image
+
+responsive_image:
+  template: _includes/responsive-image.html
