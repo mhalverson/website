@@ -8,12 +8,29 @@ templates and raw content. It uses s3_website
 (https://github.com/laurilehmijoki/s3_website) to publish new revisions of the
 website.
 
-In development, `bundle exec jekyll serve` will start up a local server to
-preview the website.
+# Usage
 
-To publish the website, run `bundle exec jekyll build` to generate the website
-in the `_site` directory, then `s3_website push` to push the changes to the s3
-bucket where the files are hosted.
+Install a non-system version of ruby:
+
+    brew install ruby
+    which ruby # it should be something other than /usr/bin/ruby
+    export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+Install dependencies:
+
+    bundle install
+    gem install s3_website
+
+Start up a local server to preview the website:
+
+    bundle exec jekyll serve
+
+Publish the website:
+
+    bundle exec jekyll build # generate the website in the `_site` directory
+    export JAVA_HOME=$(/usr/libexec/java_home -v1.8)
+    s3_website push --dry-run
+    s3_website push # push the changes to the s3 bucket where the files are hosted
 
 # Notes
 
