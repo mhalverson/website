@@ -5,6 +5,10 @@ title: Matt Halverson
 
 # Matt Halverson
 
+
+![Photo of Matt](/assets/images/gertrude_saddle.jpg)
+{: style="width:300px; height:auto;"}
+
 My name is Matt Halverson. I'm a software engineer (currently with
 [IAG](https://www.iag.co.nz/)), a musician (currently with [Atlas
 Voices](http://atlasvoices.nz/)), a traveler (most recently on a [North Island
