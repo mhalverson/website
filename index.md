@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Home
+title: Matt Halverson
 ---
 
 # Matt Halverson
