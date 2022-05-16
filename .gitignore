@@ -1,2 +1,5 @@
-s3_website.yml
-_site/
+/s3_website.yml
+/_site/
+/.bundle/
+/.jekyll-cache/
+/vendor/
