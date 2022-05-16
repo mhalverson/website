@@ -5,16 +5,14 @@ title: Matt Halverson
 
 # Matt Halverson
 
-
 ![Photo of Matt](/assets/images/gertrude_saddle.jpg)
 {: style="width:300px; height:auto;"}
 
 My name is Matt Halverson. I'm a software engineer (currently with
-[IAG](https://www.iag.co.nz/)), a musician (currently with [Atlas
-Voices](http://atlasvoices.nz/)), a traveler (most recently on a [North Island
-roadtrip](./travel/2018_11_north_island_roadtrip.html)), and a [baker]({%
-post_url 2019-08-25-pies %}). I'm an alum of [UC
-Davis](https://www.ucdavis.edu/).
+[Bigeye](https://www.bigeye.com/)), a musician (currently with [Atlas
+Voices](http://atlasvoices.nz/)), and a
+[runner](https://www.strava.com/athletes/49095399) (currently with [Speed
+Freaks](https://speedfreaks.org.nz/)).
 
 Welcome to my personal website!
 
