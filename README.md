@@ -19,7 +19,6 @@ Install a non-system version of ruby:
 Install dependencies:
 
     bundle install
-    gem install s3_website
 
 Start up a local server to preview the website:
 
