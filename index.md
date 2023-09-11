@@ -9,10 +9,9 @@ title: Matt Halverson
 {: style="width:300px; height:auto;"}
 
 My name is Matt Halverson. I'm a software engineer (currently with
-[Bigeye](https://www.bigeye.com/)), a musician (currently with [Atlas
-Voices](http://atlasvoices.nz/)), and a
-[runner](https://www.strava.com/athletes/49095399) (currently with [Speed
-Freaks](https://speedfreaks.org.nz/)).
+[Bigeye](https://www.bigeye.com/)), a musician (mostly singing lullabies these
+days), and a [runner](https://www.strava.com/athletes/49095399) (currently with
+[Speed Freaks](https://speedfreaks.org.nz/)).
 
 Welcome to my personal website!
 
